@@ -1,0 +1,214 @@
+from os.path import join, splitext, basename, dirname, exists
+import logging
+import shutil
+import common_functions as cf
+
+
+### Configuration Setup ### ----------------------------------------
+configfile: "config/optDNTRA.config.yaml"
+
+## Parameters
+
+# common
+SAMPLE = config["sample"]
+READS = config["reads"]
+REFERENCE = config["reference"]
+PAIREDEND = config["pairedEnd"]
+SSLIBTYPE = config["ssLibType"]
+TRIM = config["trim"]
+QC = config["qc"]
+BUSCO = config["busco"]
+if BUSCO:
+    BUSCO_LINEAGE = config["busco_lineage"]
+OMARK = config["omark"]
+VERBOSE = config["verbose"]
+THREADS = config["threads"]
+
+# fastq
+FASTQ = config["fastq"]
+FASTQ_LEFT = config["left"]
+FASTQ_RIGHT = config["right"]
+BATCH = config["batch"]
+if BATCH:
+    samplesDict = cf.load_sampleSheet(BATCH, config, PAIREDEND)
+    SAMPLES = samplesDict.keys()
+    SAMPLE_DICT = samplesDict
+
+# extension
+if FASTQ:
+    FASTQ_EXT = splitext(FASTQ)[1]
+if FASTQ_LEFT and FASTQ_RIGHT and PAIREDEND:
+    assert splitext(FASTQ_LEFT)[1] == splitext(FASTQ_RIGHT)[1]
+    FASTQ_EXT = splitext(FASTQ_LEFT)[1]
+if BATCH:
+    samplesDict = cf.load_sampleSheet(BATCH, config, PAIREDEND)
+    ext_set = {"." + ".".join(f.split(".")[1:]) for v in samplesDict.values() for f in v}
+    assert len(ext_set) == 1
+    FASTQ_EXT = next(iter(ext_set))
+
+## Directory paths
+
+# 01-preprocess
+PREPROC_DIR = join("results", "01-preprocess")
+FASTQC_DIR = join("results", "01-preprocess", "FastQC")
+PREPROC_LOG_DIR = join("log", "01-preprocess")
+if BATCH:
+    BATCH_UDT = join("results", "01-preprocess", "sampleSheet_udt.tab")
+
+# 02-optimization
+OPTIM_DIR = join("results", "02-optimization")
+RMREDUNDANT_DIR = join("results", "02-optimization", "01-rmRedundant")
+ORFPREDICT_DIR = join("results", "02-optimization", "02-orfPrediction")
+TRANSEVID_DIR = join("results", "02-optimization", "03-transEvidence")
+OPTIM_LOG_DIR = join("log", "02-optimization")
+
+# 03-assessment
+if BUSCO or OMARK:
+    ASMT_DIR = join("results", "03-assessment")
+    if BUSCO:
+        BUSCO_DIR = join("results", "03-assessment", "Busco")
+    if OMARK:
+        OMARK_DIR = join("results", "03-assessment", "Omark")
+    ASMT_LOG_DIR = join("log", "03-assessment")
+
+# 04-statistics
+if BUSCO or OMARK:
+    STATS_DIR = join("results", "04-statistics")
+    STATS_LOG_DIR = join("log", "04-statistics")
+else:
+    STATS_DIR = join("results", "03-statistics")
+    STATS_LOG_DIR = join("log", "03-statistics")
+
+
+### Functions ### ----------------------------------------
+def run_fastaPrep():
+    """ Prepare the input FASTA file """
+    return([join(PREPROC_DIR, "transcript.fa")])
+
+def run_fastqTrim():
+    """ Prepare the trimmed FASTQ file(s) """
+    if BATCH:
+        if PAIREDEND:
+            return([
+            expand(join(PREPROC_DIR, "{sample}" + READS[0] + FASTQ_EXT), sample=SAMPLES),
+            expand(join(PREPROC_DIR, "{sample}" + READS[1] + FASTQ_EXT), sample=SAMPLES)
+            ])
+        else:
+            return([expand(join(PREPROC_DIR, "{sample}" + FASTQ_EXT), sample=SAMPLES)])
+    else:
+        if PAIREDEND:
+            return([
+            join(PREPROC_DIR, SAMPLE + READS[0] + FASTQ_EXT),
+            join(PREPROC_DIR, SAMPLE + READS[1] + FASTQ_EXT)
+            ])
+        else:
+            return([join(PREPROC_DIR, SAMPLE + FASTQ_EXT)])
+
+def run_qualityCtrl():
+    """ Perform quality control if enabled """
+    if BATCH:
+        if QC:
+            return([expand(join(FASTQC_DIR, "{sample}"), sample=SAMPLES)])
+        else:
+            return([])
+    else:
+        if QC:
+            return([FASTQC_DIR])
+        else:
+            return([])
+
+def run_seqCluster():
+    """ Cluster sequences """
+    return([join(RMREDUNDANT_DIR, "transcript.flt1.fa")])
+
+def run_orfPred():
+    """ Predict open reading frames (ORFs) """
+    return([join(ORFPREDICT_DIR, "transcript.flt2.fa")])
+
+def run_refFlt():
+    """ Filter transcripts based on reference cDNA """
+    return([join(TRANSEVID_DIR, "transcript.noBlast1.fasta")])
+
+def run_dbFlt():
+    """ Filter transcripts based on protein database """
+    return([join(TRANSEVID_DIR, "transcript.noBlast2.fasta")])
+
+def run_exprFlt():
+    """ Filter transcripts based on expression level """
+    return([
+        join(TRANSEVID_DIR, "transcript.flt.final.fa"),
+        join(TRANSEVID_DIR, "transcript.flt.final.pep")
+    ])
+
+def run_buscoAsmt():
+    """ Run BUSCO assessment """
+    if BUSCO:
+        return([join(BUSCO_DIR, BUSCO_LINEAGE, "busco_figure.png")])
+    else:
+        return([])
+
+def run_omarkAsmt():
+    """ Run Omark assessment """
+    if OMARK:
+        return([join(OMARK_DIR, "omark_output")])
+    else:
+        return([])
+
+def run_statistics():
+    """ Run statistics """
+    return([join(STATS_LOG_DIR, "statistics.log")])
+
+
+### Load rules ### ----------------------------------------
+
+# Prepare input FASTA file
+include: "rules/fastaPrep.smk"
+
+# Trimming input FASTQ file using fastp
+include: "rules/fastqTrim.smk"
+
+# Quality control using FastQC
+if QC:
+    include: "rules/qualityCtrl.smk"
+
+# Cluster sequences using CD-HIT
+include: "rules/seqCluster.smk"
+
+# ORF prediction using TransDecoder
+include: "rules/orfPred.smk"
+
+# Filter transcripts based on reference cDNA
+include: "rules/refFlt.smk"
+
+# Filter transcripts based on protein database
+include: "rules/dbFlt.smk"
+
+# Filter transcripts based on expression level
+include: "rules/exprFlt.smk"
+
+# Assessment using BUSCO
+if BUSCO:
+    include: "rules/buscoAsmt.smk"
+
+# Assessment using Omark
+if OMARK:
+    include: "rules/omarkAsmt.smk"
+
+# Statistics
+include: "rules/statistics.smk"
+
+
+### Target rules ### ----------------------------------------
+rule all:
+    input:
+        run_fastaPrep(),
+        run_fastqTrim(),
+        run_qualityCtrl(),
+        run_seqCluster(),
+        run_orfPred(),
+        run_refFlt(),
+        run_dbFlt(),
+        run_exprFlt(),
+        run_buscoAsmt(),
+        run_omarkAsmt(),
+        run_statistics()
