@@ -36,7 +36,7 @@ if BATCH:
             makedirs(params.trinityToolkitOutdir, exist_ok=True)
 
             shell("""
-            utils/align_and_estimate_abundance.pl \
+            align_and_estimate_abundance.pl \
             --transcripts {input.transcript} \
             --seqType fq \
             --samples_file {input.batch} \
@@ -87,7 +87,7 @@ if BATCH:
             RSEMIsoRes = " ".join(input.RSEMIsoRes)
 
             shell("""
-            utils/abundance_estimates_to_matrix.pl \
+            abundance_estimates_to_matrix.pl \
             --est_method RSEM \
             --gene_trans_map none \
             --name_sample_by_basedir \
@@ -133,7 +133,7 @@ if BATCH:
             startTime = time()
 
             shell("""
-            utils/filter_low_expr_transcripts.pl \
+            filter_low_expr_transcripts.pl \
             --matrix {input.RSEMIsoTPM} \
             --transcripts {input.transcript1} \
             --min_expr_any 1 \
@@ -182,7 +182,7 @@ else:
                 makedirs(params.trinityToolkitOutdir, exist_ok=True)
 
                 shell("""
-                utils/align_and_estimate_abundance.pl \
+                align_and_estimate_abundance.pl \
                 --transcripts {input.transcript} \
                 --seqType fq \
                 --left {input.fqLeft} \
@@ -222,7 +222,7 @@ else:
                 startTime = time()
 
                 shell("""
-                utils/abundance_estimates_to_matrix.pl \
+                abundance_estimates_to_matrix.pl \
                 --est_method RSEM \
                 --gene_trans_map none \
                 --out_prefix {params.RSEMprefix} \
@@ -265,7 +265,7 @@ else:
                 startTime = time()
 
                 shell("""
-                utils/filter_low_expr_transcripts.pl \
+                filter_low_expr_transcripts.pl \
                 --matrix {input.RSEMIsoTPM} \
                 --transcripts {input.transcript1} \
                 --min_expr_any 1 \
@@ -312,7 +312,7 @@ else:
                 makedirs(params.trinityToolkitOutdir, exist_ok=True)
 
                 shell("""
-                utils/align_and_estimate_abundance.pl \
+                align_and_estimate_abundance.pl \
                 --transcripts {input.transcript} \
                 --seqType fq \
                 --single {input.fastq} \
@@ -351,7 +351,7 @@ else:
                 startTime = time()
 
                 shell("""
-                utils/abundance_estimates_to_matrix.pl \
+                abundance_estimates_to_matrix.pl \
                 --est_method RSEM \
                 --gene_trans_map none \
                 --out_prefix {params.RSEMprefix} \
@@ -394,7 +394,7 @@ else:
                 startTime = time()
 
                 shell("""
-                utils/filter_low_expr_transcripts.pl \
+                filter_low_expr_transcripts.pl \
                 --matrix {input.RSEMIsoTPM} \
                 --transcripts {input.transcript1} \
                 --min_expr_any 1 \
