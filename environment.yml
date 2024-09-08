@@ -1,0 +1,28 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - fastp
+  - fastqc
+  - cd-hit
+  - transdecoder
+  - blast
+  - hmmer
+  - seqtk
+  - diamond
+  - busco
+  - omark
+  - pip
+  - snakemake
+  - samtools
+  - bowtie2
+  - rsem
+  - bioconductor-edger
+  - trinity
+  - pip:
+    - argparse
+    - pyyaml
+    - requests
+    - tqdm
+    - coloredlogs
+    - biopython
