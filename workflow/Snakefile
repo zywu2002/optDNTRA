@@ -21,6 +21,7 @@ BUSCO = config["busco"]
 if BUSCO:
     BUSCO_LINEAGE = config["busco_lineage"]
 OMARK = config["omark"]
+EMAPPER = config["emapper"]
 VERBOSE = config["verbose"]
 THREADS = config["threads"]
 
@@ -71,13 +72,30 @@ if BUSCO or OMARK:
         OMARK_DIR = join("results", "03-assessment", "Omark")
     ASMT_LOG_DIR = join("log", "03-assessment")
 
-# 04-statistics
+# 04-annotation
+if EMAPPER:
+    if BUSCO or OMARK:
+        ANNO_DIR = join("results", "04-annotation")
+        ANNO_LOG_DIR = join("log", "04-annotation")
+    else:
+        ANNO_DIR = join("results", "03-annotation")
+        ANNO_LOG_DIR = join("log", "03-annotation")
+
+# 05-statistics
 if BUSCO or OMARK:
-    STATS_DIR = join("results", "04-statistics")
-    STATS_LOG_DIR = join("log", "04-statistics")
+    if EMAPPER:
+        STATS_DIR = join("results", "05-statistics")
+        STATS_LOG_DIR = join("log", "05-statistics")
+    else:
+        STATS_DIR = join("results", "04-statistics")
+        STATS_LOG_DIR = join("log", "04-statistics")
 else:
-    STATS_DIR = join("results", "03-statistics")
-    STATS_LOG_DIR = join("log", "03-statistics")
+    if EMAPPER:
+        STATS_DIR = join("results", "04-statistics")
+        STATS_LOG_DIR = join("log", "04-statistics")
+    else:
+        STATS_DIR = join("results", "03-statistics")
+        STATS_LOG_DIR = join("log", "03-statistics")
 
 
 ### Functions ### ----------------------------------------
@@ -154,6 +172,13 @@ def run_omarkAsmt():
     else:
         return([])
 
+def run_emapper():
+    """ Run EggNOG-mapper """
+    if EMAPPER:
+        return([join(ANNO_DIR)])
+    else:
+        return([])
+
 def run_statistics():
     """ Run statistics """
     return([join(STATS_LOG_DIR, "statistics.log")])
@@ -194,6 +219,10 @@ if BUSCO:
 if OMARK:
     include: "rules/omarkAsmt.smk"
 
+# Functional annotation using EggNOG-mapper
+if EMAPPER:
+    include: "rules/emapper.smk"
+
 # Statistics
 include: "rules/statistics.smk"
 
@@ -211,4 +240,5 @@ rule all:
         run_exprFlt(),
         run_buscoAsmt(),
         run_omarkAsmt(),
+        run_emapper(),
         run_statistics()
