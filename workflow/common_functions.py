@@ -88,7 +88,7 @@ def load_defaults(fileName, logger):
     configDir = os.path.join(baseDir, "config")
     workflowDir = os.path.join(baseDir, "workflow")
 
-    configFile = os.path.join(configDir, "defaults.yaml")
+    configFile = os.path.join(configDir, "defaults.yml")
     configDefault = load_config(configFile, logger)
 
     logger.debug("Loading default configuration for the workflow...")
