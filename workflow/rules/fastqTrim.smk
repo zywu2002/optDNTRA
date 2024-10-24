@@ -97,7 +97,7 @@ if TRIM:
         else:
             raise ValueError(f"Unexpected number of columns in {BATCH}")
         df.to_csv(BATCH_UDT, sep="\t", index=False, header=False)
-
+            
     else:
         if PAIREDEND:
             rule fastp_cleanFQ:
