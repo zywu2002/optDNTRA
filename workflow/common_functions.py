@@ -137,10 +137,10 @@ def download_file(url, outDir, logger):
         url (str): URL of a file to download
         outDir (str): Output directory for the downloaded file
     """
+    logger.info(f"Downloading {fileName} from {url}...")
     
     os.makedirs(outDir, exist_ok=True)
     fileName = os.path.join(outDir, url.split("/")[-1])
-    logger.info(f"Downloading {fileName} from {url}...")
     
     response = requests.get(url, stream=True)
     total_size = int(response.headers.get("content-length", 0))
