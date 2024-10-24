@@ -1,5 +1,4 @@
 from os.path import join
-from os import makedirs
 import logging
 import common_functions as cf
 from time import time
