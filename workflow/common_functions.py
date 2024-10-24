@@ -88,7 +88,7 @@ def load_defaults(fileName, logger):
     configDir = os.path.join(baseDir, "config")
     workflowDir = os.path.join(baseDir, "workflow")
 
-    configFile = os.path.join(configDir, "defaults.yml")
+    configFile = os.path.join("defaults.yml")
     configDefault = load_config(configFile, logger)
 
     logger.debug("Loading default configuration for the workflow...")
@@ -137,10 +137,11 @@ def download_file(url, outDir, logger):
         url (str): URL of a file to download
         outDir (str): Output directory for the downloaded file
     """
-    logger.info(f"Downloading {fileName} from {url}...")
     
     os.makedirs(outDir, exist_ok=True)
     fileName = os.path.join(outDir, url.split("/")[-1])
+    
+    logger.info(f"Downloading {fileName} from {url}...")
     
     response = requests.get(url, stream=True)
     total_size = int(response.headers.get("content-length", 0))
@@ -280,7 +281,7 @@ def create_YAML(configDir, configDefault, args, callingScript, logger):
         callingScript (str): Name of the calling script
     """
     workflowName = os.path.splitext(os.path.basename(callingScript))[0]
-    configFile = os.path.join(configDir, f"{workflowName}.config.yaml")
+    configFile = os.path.join(configDir, f"{workflowName}.config.yml")
 
     argsFltDict = {k: "" if v is None else v for k, v in vars(args).items()}
     del(argsFltDict["snakemakeOptions"])
