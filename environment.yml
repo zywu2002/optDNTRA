@@ -12,6 +12,7 @@ dependencies:
   - diamond
   - busco
   - omark
+  - emapper
   - pip
   - snakemake
   - samtools
