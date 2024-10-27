@@ -5,7 +5,7 @@ from time import time
 
 
 ### Configuration Setup ### ----------------------------------------
-REFCDNA = config["reference"]
+REFTX = config["reference"]
 
 
 ### Logging Setup ### ----------------------------------------
@@ -16,15 +16,15 @@ LOG_REFFLT = cf.get_logger("REFFLT", VERBOSE)
 if REFERENCE:
     rule filter_based_on_reference:
         """
-        Perform BLAST search against reference cDNA and filter transcripts
+        Perform BLAST search against reference transcripts and filter transcripts
         """
         input:
             transcript = join(ORFPREDICT_DIR, "transcript.flt2.fa"),
-            refcDNA = REFCDNA
+            refTx = REFTX
         output:
             transcriptFlt = temp(join(TRANSEVID_DIR, "transcript.noBlast1.fasta")),
             refBlastOut = join(TRANSEVID_DIR, "refBlastn.outfmt6"),
-            refBlastID = temp(join(TRANSEVID_DIR, "blast.ref_cdna.id.txt")),
+            refBlastID = temp(join(TRANSEVID_DIR, "blast.ref_tx.id.txt")),
             transcriptFltID = temp(join(TRANSEVID_DIR, "transcriptFlt.id.txt")),
             transcriptFltNoBlastID = temp(join(TRANSEVID_DIR, "transcriptFlt.noBlast.id.txt")),
         log:
@@ -36,11 +36,11 @@ if REFERENCE:
             startTime = time()
 
             shell("""
-            makeblastdb -in {input.refcDNA} -dbtype nucl &> {log}
+            makeblastdb -in {input.refTx} -dbtype nucl &> {log}
             
             blastn \
             -query {input.transcript} \
-            -db {input.refcDNA} \
+            -db {input.refTx} \
             -out {output.refBlastOut} \
             -evalue 1e-5 \
             -max_target_seqs 1 \
@@ -56,11 +56,11 @@ if REFERENCE:
 
             endTime = time()
             elapseTime = endTime - startTime
-            LOG_REFFLT.info(f"Performed BLAST search against reference cDNA and filtered transcripts in {elapseTime:.2f} seconds")
+            LOG_REFFLT.info(f"Performed BLAST search against reference transcripts and filtered transcripts in {elapseTime:.2f} seconds")
 else:
     rule filter_based_on_reference:
         """
-        Perform BLAST search against reference cDNA and filter transcripts
+        Perform BLAST search against reference transcripts and filter transcripts
         """
         input:
             transcript = join(ORFPREDICT_DIR, "transcript.flt2.fa"),
