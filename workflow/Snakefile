@@ -5,7 +5,7 @@ import common_functions as cf
 
 
 ### Configuration Setup ### ----------------------------------------
-configfile: "config/optDNTRA.config.yaml"
+configfile: "optDNTRA.config.yml"
 
 ## Parameters
 
