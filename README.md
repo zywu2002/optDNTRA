@@ -23,7 +23,7 @@ mamba activate optDNTRA
 
 Here's a summary of the available command-line arguments:
 
-```bash
+```
 $ python optDNTRA.py -h
 
 usage: optDNTRA.py [-h] -t transcripts.fasta [-f reads.fq] [--left reads_1.fq] [--right reads_2.fq] [--sampleSheet samples.tab]
