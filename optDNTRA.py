@@ -150,13 +150,13 @@ def main():
     LOG_MAIN = cf.get_logger("MAIN", args.verbose)
     
     # Load default configurations
-    baseDir, configDir, workflowDir, configDefault = cf.load_defaults(__file__, LOG_MAIN)
+    baseDir, workflowDir, configDefault = cf.load_defaults(__file__, LOG_MAIN)
 
     # Check and validate the wrapper arguments
     cf.check_arguments(args, configDefault, LOG_MAIN)
     
     # Generate the YAML configuration file for Snakemake
-    cf.create_YAML(configDir, configDefault, args, __file__, LOG_MAIN)
+    cf.create_YAML(configDefault, args, __file__, LOG_MAIN)
     
     # Update Snakemake options
     snakemakeCMD = cf.update_snakemakeOptions(args, LOG_MAIN)
