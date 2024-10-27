@@ -2,29 +2,28 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - fastp
-  - fastqc
-  - cd-hit
-  - transdecoder
-  - blast
-  - hmmer
-  - seqtk
-  - diamond
-  - busco
-  - omark
-  - eggnog-mapper
-  - pip
-  - snakemake
-  - samtools
-  - bowtie2
-  - rsem
-  - bioconductor-edger
-  - trinity
+  - fastp=0.23.4
+  - fastqc=0.12.1
+  - cd-hit=4.8.1
+  - transdecoder=5.7.1
+  - blast=2.16.0
+  - hmmer=3.4
+  - seqtk=1.4
+  - diamond=2.1.10
+  - busco=5.7.1
+  - omark=0.3.0
+  - eggnog-mapper=2.1.12
+  - pip=24.2
+  - snakemake=7.32.4
+  - samtools=1.21
+  - bowtie2=2.5.4
+  - rsem=1.3.3
+  - bioconductor-edger=4.0.16
+  - trinity=2.15.2
   - pip:
-    - argparse
-    - pyyaml
-    - requests
-    - tqdm
-    - coloredlogs
-    - biopython
-    - prettytable
+    - pyyaml=6.0.2
+    - requests=2.32.3
+    - tqdm=4.66.5
+    - coloredlogs=15.0.1
+    - biopython=1.84
+    - prettytable=3.11.0
