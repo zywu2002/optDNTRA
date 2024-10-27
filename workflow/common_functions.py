@@ -80,19 +80,17 @@ def load_defaults(fileName, logger):
 
     Returns:
         baseDir (str): Base directory
-        configDir (str): Configuration directory
         workflowDir (str): Workflow directory
         configDefault (dict): Default configuration dictionary
     """
     baseDir = os.path.dirname(fileName)
-    configDir = os.path.join(baseDir, "config")
     workflowDir = os.path.join(baseDir, "workflow")
 
     configFile = os.path.join("defaults.yml")
     configDefault = load_config(configFile, logger)
 
     logger.debug("Loading default configuration for the workflow...")
-    return baseDir, configDir, workflowDir, configDefault
+    return baseDir, workflowDir, configDefault
 
 
 def check_extensions(fileName, extLst, logger):
@@ -271,17 +269,16 @@ def write_config(configFile, config, logger):
         yaml.dump(config, FIN, default_flow_style=False, width=1000, sort_keys=False)
 
 
-def create_YAML(configDir, configDefault, args, callingScript, logger):
+def create_YAML(configDefault, args, callingScript, logger):
     """ Create a YAML configuration file for Snakemake
 
     Args:
-        configDir (str): Directory of the configuration file
         configDefault (dict): Default configuration dictionary
         args (argparse.Namespace): Parsed arguments
         callingScript (str): Name of the calling script
     """
     workflowName = os.path.splitext(os.path.basename(callingScript))[0]
-    configFile = os.path.join(configDir, f"{workflowName}.config.yml")
+    configFile = os.path.join(f"{workflowName}.config.yml")
 
     argsFltDict = {k: "" if v is None else v for k, v in vars(args).items()}
     del(argsFltDict["snakemakeOptions"])
