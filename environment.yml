@@ -12,7 +12,7 @@ dependencies:
   - diamond
   - busco
   - omark
-  - emapper
+  - eggnog-mapper
   - pip
   - snakemake
   - samtools
@@ -27,3 +27,4 @@ dependencies:
     - tqdm
     - coloredlogs
     - biopython
+    - prettytable
