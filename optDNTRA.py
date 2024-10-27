@@ -42,7 +42,7 @@ For RNA-seq input data:
     parser.add_argument("-t", "--transcript",
                         type=str,
                         required=True,
-                        help="transcript fasta file",
+                        help="transcript fasta",
                         metavar="transcripts.fasta",
                         dest="transcript")
     
@@ -77,8 +77,8 @@ For RNA-seq input data:
     parser.add_argument("--reference",
                         type=str,
                         required=False,
-                        help="reference transcriptome",
-                        metavar="reference.cdna.fasta",
+                        help="reference transcripts",
+                        metavar="reference.fasta",
                         dest="reference")
     
     parser.add_argument("--singleEnd",
