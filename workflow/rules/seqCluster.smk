@@ -36,7 +36,6 @@ rule cdhit:
          -d 0 \
          -sc 1 \
          -sf 1 \
-         -T {threads} \
          &> {log}
         """)
 
