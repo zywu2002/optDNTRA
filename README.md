@@ -1,4 +1,4 @@
-# optDNTRA: Optimization of De Novo Transcriptome RNA-seq Assembly
+# optDNTRA: Optimization of De Novo Transcriptome Rna-seq Assembly
 
 ## Overview
 
