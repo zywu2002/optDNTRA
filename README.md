@@ -1,4 +1,4 @@
-# optDNTRA: optimization of De Novo Transcriptome Rna-seq Assembly
+# optDNTRA: <u>opt</u>imization of <u>D</u>e <u>N</u>ovo <u>T</u>ranscriptome <u>R</u>na-seq <u>A</u>ssembly
 
 ## Overview
 
