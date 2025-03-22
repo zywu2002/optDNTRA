@@ -21,6 +21,9 @@ mamba activate optDNTRA
 
 ## Usage
 
+> [!NOTE]  
+> Before running the `optNDTRA` Snakemake pipeline, you need to configure the `defaults.yml` file. This file defines the necessary paths and parameters for the workflow.
+
 Here's a summary of the available command-line arguments:
 
 ```
@@ -30,7 +33,7 @@ usage: optDNTRA.py [-h] -t transcripts.fasta [-f reads.fq] [--left reads_1.fq] [
                    [--reference reference.fasta] [--singleEnd] [--ss-lib-type {F,R,RF,FR}] [--trim] [--qc] [--buscoAsmt] [--omarkAsmt]
                    [--emapper] [-v] [--threads THREADS] [--snakemakeOptions SNAKEMAKEOPTIONS]
 
- 
+
 optDNTRA: optimization of De Novo Transcriptome Rna-seq Assembly
 
 For RNA-seq input data:
@@ -47,7 +50,7 @@ For RNA-seq input data:
                                 cond_B    cond_B_rep1    B_rep1_left.fq    B_rep1_right.fq
                                 cond_B    cond_B_rep2    B_rep2_left.fq    B_rep2_right.fq
                                 if single-end, remove the 4th column in the text file.
-        
+
 
 options:
   -h, --help            show this help message and exit
