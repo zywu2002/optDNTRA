@@ -228,11 +228,12 @@ def check_arguments(args, config, logger):
         check_extensions(config["pfam_hmm"], hmmExt, logger)
     else:
         download_file(url=pfam_hmm_url, outDir="data/", logger=logger)
-        
-    if config["omark_database"]:
-        check_extensions(config["omark_database"], omarkDbExt, logger)
-    else:
-        download_file(url=omark_db_url, outDir="data/", logger=logger)
+    
+    if args.omark:
+        if config["omark_database"]:
+            check_extensions(config["omark_database"], omarkDbExt, logger)
+        else:
+            download_file(url=omark_db_url, outDir="data/", logger=logger)
 
 
 def add_sampleConfig(config, logger):
