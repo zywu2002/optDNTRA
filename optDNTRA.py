@@ -7,13 +7,12 @@ import subprocess
 from time import time
 
 
-def parse_args():
-    """ Parse arguments from the command line
+def parse_args() -> argparse.ArgumentParser:
+    """Parse arguments from the command line.
 
     Returns:
-        parser (argparse.ArgumentParser): Parsed arguments
+        argparse.ArgumentParser: Argument parser instance.
     """
-    # Parser arguments
     parser = argparse.ArgumentParser(
         prog=sys.argv[0],
         description=''' 
@@ -139,36 +138,34 @@ For RNA-seq input data:
     return parser
 
 
-def main():
-    mainStartTime = time()
-    
-    # Parse command-line arguments
+def main() -> None:
+    """Main entry point for optDNTRA workflow."""
+    main_start_time = time()
     parser = parse_args()
     args = parser.parse_args()
-    
-    # Configure the logger
-    LOG_MAIN = cf.get_logger("MAIN", args.verbose)
-    
-    # Load default configurations
-    baseDir, workflowDir, configDefault = cf.load_defaults(__file__, LOG_MAIN)
-
-    # Check and validate the wrapper arguments
-    cf.check_arguments(args, configDefault, LOG_MAIN)
-    
-    # Generate the YAML configuration file for Snakemake
-    cf.create_YAML(configDefault, args, __file__, LOG_MAIN)
-    
-    # Update Snakemake options
-    snakemakeCMD = cf.update_snakemakeOptions(args, LOG_MAIN)
-    
-    # Execute Snakemake
-    LOG_MAIN.info("Running Snakemake...")
-    subprocess.run(snakemakeCMD, shell=True)
-    
-    # Logging out runtime
-    mainEndTime = time()
-    elapseTime = mainEndTime - mainStartTime
-    LOG_MAIN.info(f"Total runtime of the project: {elapseTime:.2f} seconds")
+    LOG_MAIN = cf.get_logger("MAIN", getattr(args, "verbose", False))
+    try:
+        # Load default configurations
+        base_dir, workflow_dir, config_default = cf.load_defaults(__file__, LOG_MAIN)
+        # Check and validate the wrapper arguments
+        cf.check_arguments(args, config_default, LOG_MAIN)
+        # Generate the YAML configuration file for Snakemake
+        cf.create_YAML(config_default, args, __file__, LOG_MAIN)
+        # Update Snakemake options
+        snakemake_cmd = cf.update_snakemakeOptions(args, LOG_MAIN)
+        # Execute Snakemake
+        LOG_MAIN.info("Running Snakemake...")
+        subprocess.run(snakemake_cmd, shell=True, check=True)
+        # Logging out runtime
+        main_end_time = time()
+        elapse_time = main_end_time - main_start_time
+        LOG_MAIN.info(f"Total runtime of the project: {elapse_time:.2f} seconds")
+    except cf.OptDNTRAError as e:
+        LOG_MAIN.error(f"optDNTRA workflow error: {e}")
+        sys.exit(1)
+    except Exception as e:
+        LOG_MAIN.error(f"Unexpected error: {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
