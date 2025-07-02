@@ -19,7 +19,7 @@ mamba env create -f environment.yml
 mamba activate optDNTRA
 ```
 
-## Usage
+## Usage 
 
 > [!NOTE]  
 > Before running the `optNDTRA` Snakemake pipeline, you need to configure the `defaults.yml` file. This file defines the necessary paths and parameters for the workflow.
