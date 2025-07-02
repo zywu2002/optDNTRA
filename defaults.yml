@@ -19,7 +19,7 @@ swiss_prot:
 pfam_hmm:
 
 # BUSCO lineage dataset to be used (required).
-# Example: "eukaryota_odb10" 
+# Example: "eukaryota_odb10"
 busco_lineage:
 
 # Omark database path.
