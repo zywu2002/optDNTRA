@@ -27,4 +27,3 @@ dependencies:
     - coloredlogs=15.0.1
     - biopython=1.84
     - prettytable=3.11.0
-
