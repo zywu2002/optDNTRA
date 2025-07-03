@@ -1,4 +1,4 @@
-from os.path import join
+from os.path import join, dirname
 from os import makedirs
 import logging
 import common_functions as cf
@@ -6,7 +6,7 @@ from time import time
 
 
 ### Configuration Setup ### ----------------------------------------
-EMAPPER_DB = config["emapper_database"]
+EMAPPER_DB = dirname(config["emapper_database"])
 
 
 ### Logging Setup ### ----------------------------------------
@@ -31,9 +31,10 @@ rule emapper:
         LOG_EMAPPER.info("Running emapper.smk...")
         startTime = time()
 
+        makedirs(output.emapperOut, exist_ok=True)
+
         shell(
         """
-
         emapper.py \
          -m diamond \
          --itype proteins \
