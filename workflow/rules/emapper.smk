@@ -5,6 +5,10 @@ import common_functions as cf
 from time import time
 
 
+### Configuration Setup ### ----------------------------------------
+EMAPPER_DB = config["emapper_database"]
+
+
 ### Logging Setup ### ----------------------------------------
 LOG_EMAPPER = cf.get_logger("EMAPPER", VERBOSE)
 
@@ -21,23 +25,20 @@ rule emapper:
     log:
         join(ANNO_LOG_DIR, "emapper.log"),
     params:
-        dataDir=directory(join(ANNO_DIR, "database")),
+        emapperDB=EMAPPER_DB,
     threads: THREADS
     run:
         LOG_EMAPPER.info("Running emapper.smk...")
         startTime = time()
 
-        makedirs(params.dataDir, exist_ok=True)
-
         shell(
         """
-        download_eggnog_data.py -y --data_dir {params.dataDir}
 
         emapper.py \
          -m diamond \
          --itype proteins \
          -i {input.transcriptPep} \
-         --data_dir {params.dataDir} \
+         --data_dir {params.emapperDB} \
          --output transAsm \
          --output_dir {output.emapperOut} \
          --cpu {threads} \
