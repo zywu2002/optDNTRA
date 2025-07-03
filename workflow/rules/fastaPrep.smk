@@ -18,21 +18,24 @@ rule prepare_fasta:
     Preprocess input FASTA file
     """
     input:
-        transcript = TRANSCRIPT
+        transcript=TRANSCRIPT,
     output:
-        transcriptProc = join(PREPROC_DIR, "transcript.fa")
+        transcriptProc=join(PREPROC_DIR, "transcript.fa"),
     log:
-        join(PREPROC_LOG_DIR, "fastaPrep.log")
-    threads:
-        THREADS
+        join(PREPROC_LOG_DIR, "fastaPrep.log"),
+    threads: THREADS
     run:
         LOG_FASTAPREP.info("Running fastaPrep.smk...")
         startTime = time()
-        
-        shell("""
+
+        shell(
+        """
         sed 's/>\\([^ ]*\\) .*/>\\1/' {input.transcript} > {output.transcriptProc} 2> {log}
-        """)
-        
+        """
+        )
+
         endTime = time()
         elapseTime = endTime - startTime
-        LOG_FASTAPREP.info(f"Preprocessed input FASTA file in {elapseTime:.2f} seconds")
+        LOG_FASTAPREP.info(
+            f"Preprocessed input FASTA file in {elapseTime:.2f} seconds."
+        )
