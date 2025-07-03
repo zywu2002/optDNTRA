@@ -20,11 +20,13 @@ fastaExt = ["fa", "fasta"]
 fastqExt = ["fq", "fq.gz", "fastq", "fastq.gz"]
 hmmExt = ["hmm"]
 omarkDbExt = ["h5"]
+emapperDbExt = ["db", "db.gz"]
 
 # Database URL
 swiss_prot_url = "https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz"
 pfam_hmm_url = "https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.gz"
 omark_db_url = "https://omabrowser.org/All/LUCA.h5"
+emapper_db_url = "http://eggnog6.embl.de/download/emapperdb-5.0.2/eggnog.db.gz"
 
 
 class OptDNTRAError(Exception):
@@ -235,15 +237,28 @@ def check_arguments(args: argparse.Namespace, config: dict, logger: logging.Logg
         check_extensions(config["swiss_prot"], fastaExt, logger)
     else:
         download_file(url=swiss_prot_url, out_dir="data/", logger=logger)
+        swiss_prot_path = os.path.splitext(os.path.basename(swiss_prot_url))[0] if swiss_prot_url.endswith(".gz") else os.path.basename(swiss_prot_url)
+        config["swiss_prot"] = f"data/{swiss_prot_path}"
     if config["pfam_hmm"]:
         check_extensions(config["pfam_hmm"], hmmExt, logger)
     else:
         download_file(url=pfam_hmm_url, out_dir="data/", logger=logger)
+        pfam_hmm_path = os.path.splitext(os.path.basename(pfam_hmm_url))[0] if pfam_hmm_url.endswith(".gz") else os.path.basename(pfam_hmm_url)
+        config["pfam_hmm"] = f"data/{pfam_hmm_path}"
     if args.omark:
         if config["omark_database"]:
             check_extensions(config["omark_database"], omarkDbExt, logger)
         else:
             download_file(url=omark_db_url, out_dir="data/", logger=logger)
+            omark_db_path = os.path.splitext(os.path.basename(omark_db_url))[0] if omark_db_url.endswith(".gz") else os.path.basename(omark_db_url)
+            config["omark_database"] = f"data/{omark_db_path}"
+    if args.emapper:
+        if config["emapper_database"]:
+            check_extensions(config["emapper_database"], emapperDbExt, logger)
+        else:
+            download_file(url=emapper_db_url, out_dir="data/", logger=logger)
+            emapper_db_path = os.path.splitext(os.path.basename(emapper_db_url))[0] if emapper_db_url.endswith(".gz") else os.path.basename(emapper_db_url)
+            config["emapper_database"] = f"data/{emapper_db_path}"
 
 
 def add_sampleConfig(config: dict, logger: logging.Logger) -> dict:
