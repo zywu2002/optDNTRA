@@ -14,18 +14,18 @@ rule cdhit:
     Cluster highly similar sequences using CD-HIT-EST
     """
     input:
-        transcript = join(PREPROC_DIR, "transcript.fa")
+        transcript=join(PREPROC_DIR, "transcript.fa"),
     output:
-        transcriptFlt = join(RMREDUNDANT_DIR, "transcript.flt1.fa")
+        transcriptFlt=join(RMREDUNDANT_DIR, "transcript.flt1.fa"),
     log:
-        join(OPTIM_LOG_DIR, "seqCluster.log")
-    threads:
-        THREADS
+        join(OPTIM_LOG_DIR, "seqCluster.log"),
+    threads: THREADS
     run:
         LOG_SEQCLUSTER.info("Running seqCluster.smk...")
         startTime = time()
 
-        shell("""
+        shell(
+        """
         cd-hit-est \
          -i {input.transcript} \
          -o {output.transcriptFlt} \
@@ -37,8 +37,11 @@ rule cdhit:
          -sc 1 \
          -sf 1 \
          &> {log}
-        """)
+        """
+        )
 
         endTime = time()
         elapseTime = endTime - startTime
-        LOG_SEQCLUSTER.info(f"Clustered highly similar sequences using CD-HIT-EST in {elapseTime:.2f} seconds")
+        LOG_SEQCLUSTER.info(
+            f"Clustered highly similar sequences using CD-HIT-EST in {elapseTime:.2f} seconds."
+        )
