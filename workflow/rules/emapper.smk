@@ -11,39 +11,42 @@ LOG_EMAPPER = cf.get_logger("EMAPPER", VERBOSE)
 
 ### Rule ### ----------------------------------------
 rule emapper:
-	"""
-	Perform EggNOG-mapper for functional annotation
-	"""
-	input:
-		transcriptPep = join(TRANSEVID_DIR, "transcript.flt.final.pep")
-	output:
-		emapperOut = directory(ANNO_DIR)
-	log:
-		join(ANNO_LOG_DIR, "emapper.log")
-	params:
-		dataDir = directory(join(ANNO_DIR, "database"))
-	threads:
-		THREADS
-	run:
-		LOG_EMAPPER.info("Running emapper.smk...")
-		startTime = time()
-		
-		makedirs(params.dataDir, exist_ok=True)
+    """
+    Perform EggNOG-mapper for functional annotation
+    """
+    input:
+        transcriptPep=join(TRANSEVID_DIR, "transcript.flt.final.pep"),
+    output:
+        emapperOut=directory(ANNO_DIR),
+    log:
+        join(ANNO_LOG_DIR, "emapper.log"),
+    params:
+        dataDir=directory(join(ANNO_DIR, "database")),
+    threads: THREADS
+    run:
+        LOG_EMAPPER.info("Running emapper.smk...")
+        startTime = time()
 
-		shell("""
-		download_eggnog_data.py -y --data_dir {params.dataDir}
+        makedirs(params.dataDir, exist_ok=True)
 
-		emapper.py \
-		 -m diamond \
-		 --itype proteins \
-		 -i {input.transcriptPep} \
-		 --data_dir {params.dataDir} \
-		 --output transAsm \
-		 --output_dir {output.emapperOut} \
-		 --cpu {threads} \
-		 &> {log}
-		 """)
+        shell(
+        """
+        download_eggnog_data.py -y --data_dir {params.dataDir}
 
-		endTime = time()
-		elapseTime = endTime - startTime
-		LOG_EMAPPER.info(f"Performed EggNOG-mapper for functional annotation in {elapseTime:.2f} seconds")
+        emapper.py \
+         -m diamond \
+         --itype proteins \
+         -i {input.transcriptPep} \
+         --data_dir {params.dataDir} \
+         --output transAsm \
+         --output_dir {output.emapperOut} \
+         --cpu {threads} \
+         &> {log}
+         """
+        )
+
+        endTime = time()
+        elapseTime = endTime - startTime
+        LOG_EMAPPER.info(
+            f"Performed EggNOG-mapper for functional annotation in {elapseTime:.2f} seconds."
+        )
