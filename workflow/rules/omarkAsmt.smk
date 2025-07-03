@@ -18,21 +18,21 @@ rule omark_assessment:
     Perform Omark assessment to evaluate proteome completeness
     """
     input:
-        transcriptPep = join(TRANSEVID_DIR, "transcript.flt.final.pep")
+        transcriptPep=join(TRANSEVID_DIR, "transcript.flt.final.pep"),
     output:
-        omarkOut = directory(join(OMARK_DIR, "omark_output"))
+        omarkOut=directory(join(OMARK_DIR, "omark_output")),
     log:
-        join(ASMT_LOG_DIR, "omarkAsmt.log")
+        join(ASMT_LOG_DIR, "omarkAsmt.log"),
     params:
-        omarkQuery = join(OMARK_DIR, "query.omamer"),
-        omarkDB = OMARK_DB
-    threads:
-        THREADS
+        omarkQuery=join(OMARK_DIR, "query.omamer"),
+        omarkDB=OMARK_DB,
+    threads: THREADS
     run:
         LOG_OMARKASMT.info("Running omarkAsmt.smk...")
         startTime = time()
 
-        shell("""
+        shell(
+        """
         omamer search \
          --db {params.omarkDB} \
          --query {input.transcriptPep} \
@@ -45,8 +45,11 @@ rule omark_assessment:
          --database {params.omarkDB} \
          --outputFolder {output.omarkOut} \
          &>> {log}
-        """)
+        """
+        )
 
         endTime = time()
         elapseTime = endTime - startTime
-        LOG_OMARKASMT.info(f"Performed Omark assessment to evaluate proteome completeness in {elapseTime:.2f} seconds")
+        LOG_OMARKASMT.info(
+            f"Performed Omark assessment to evaluate proteome completeness in {elapseTime:.2f} seconds."
+        )
