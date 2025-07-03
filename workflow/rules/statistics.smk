@@ -15,20 +15,26 @@ rule statistics:
     Generate statistics for Optimization of De Novo Transcriptome Assembly (OptDNTA)
     """
     input:
-        transcript = join(PREPROC_DIR, "transcript.fa"),
-        transcriptFlt1 = join(RMREDUNDANT_DIR, "transcript.flt1.fa"),
-        transcriptFlt2 = join(ORFPREDICT_DIR, "transcript.flt2.fa"),
-        transcriptFlt3 = join(TRANSEVID_DIR, "transcript.flt.final.fa")
+        transcript=join(PREPROC_DIR, "transcript.fa"),
+        transcriptFlt1=join(RMREDUNDANT_DIR, "transcript.flt1.fa"),
+        transcriptFlt2=join(ORFPREDICT_DIR, "transcript.flt2.fa"),
+        transcriptFlt3=join(TRANSEVID_DIR, "transcript.flt.final.fa"),
     output:
-        log = join(STATS_LOG_DIR, "statistics.log")
+        log=join(STATS_LOG_DIR, "statistics.log"),
     run:
         LOG_STATS.info("Running statistics.smk...")
         startTime = time()
 
         seqNumFlt0 = str(cf.count_fastx(input.transcript, LOG_STATS, identifier=">"))
-        seqNumFlt1 = str(cf.count_fastx(input.transcriptFlt1, LOG_STATS, identifier=">"))
-        seqNumFlt2 = str(cf.count_fastx(input.transcriptFlt2, LOG_STATS, identifier=">"))
-        seqNumFlt3 = str(cf.count_fastx(input.transcriptFlt3, LOG_STATS, identifier=">"))
+        seqNumFlt1 = str(
+            cf.count_fastx(input.transcriptFlt1, LOG_STATS, identifier=">")
+        )
+        seqNumFlt2 = str(
+            cf.count_fastx(input.transcriptFlt2, LOG_STATS, identifier=">")
+        )
+        seqNumFlt3 = str(
+            cf.count_fastx(input.transcriptFlt3, LOG_STATS, identifier=">")
+        )
 
         with open(output.log, "w") as FOUT:
             FOUT.write("Transcript" + "\t" + "Num" + "\n")
@@ -52,4 +58,4 @@ rule statistics:
 
         endTime = time()
         elapseTime = endTime - startTime
-        LOG_STATS.info(f"Generated statistics in {elapseTime:.2f} seconds")
+        LOG_STATS.info(f"Generated statistics in {elapseTime:.2f} seconds.")
