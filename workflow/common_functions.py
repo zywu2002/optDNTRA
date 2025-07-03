@@ -71,7 +71,7 @@ def load_config(config_file: str, logger: logging.Logger) -> dict:
         logger.error(f"Failed to load config file {config_file}: {e}")
         raise OptDNTRAError(f"Failed to load config file {config_file}: {e}")
     config_mod = {k: "" if v is None else v for k, v in config.items()}
-    logger.debug("**Parameters** " + "-" * 100)
+    logger.debug("Parameters " + "-" * 110)
     for k, v in config_mod.items():
         logger.debug(f"{k}: {v}")
     logger.debug("-" * 120)
@@ -300,7 +300,7 @@ def create_YAML(config_default: dict, args: argparse.Namespace, calling_script: 
     config.update(config_default)
     write_config(config_file, config, logger)
     logger.info("Creating the YAML configuration file for Snakemake...")
-    logger.debug("**Parameters** " + "-" * 100)
+    logger.debug("Parameters " + "-" * 110)
     for k, v in config.items():
         logger.debug(f"{k}: {v}")
     logger.debug("-" * 120)
