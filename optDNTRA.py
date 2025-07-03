@@ -112,7 +112,7 @@ For RNA-seq input data:
                         help="enable OMArk assessment",
                         dest="omark")
 
-    parser.add_argument("--emapper",
+    parser.add_argument("--emapperAnno",
                         action="store_true",
                         help="enable EggNOG-mapper for functional annotation",
                         dest="emapper")
