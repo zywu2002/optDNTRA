@@ -26,3 +26,8 @@ busco_lineage:
 # If not specified, the workflow will download the latest version from:
 # https://omabrowser.org/All/LUCA.h5
 omark_database:
+
+# EggNOG-mapper database path.
+# If not specified, the workflow will download the latest version from:
+# http://eggnog6.embl.de/download/emapperdb-5.0.2/eggnog.db.gz
+emapper_database:
