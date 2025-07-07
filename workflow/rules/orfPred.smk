@@ -45,10 +45,10 @@ if SSLIBTYPE:
             shell(
             """
             TransDecoder.LongOrfs \
-            -t {input.transcript} \
-            -S \
-            --output_dir {params.outDir} \
-            &> {log}
+             -t {input.transcript} \
+             -S \
+             --output_dir {params.outDir} \
+             &> {log}
             """
             )
 
@@ -85,9 +85,9 @@ else:
             shell(
             """
             TransDecoder.LongOrfs \
-            -t {input.transcript} \
-            --output_dir {params.outDir} \
-            &> {log}
+             -t {input.transcript} \
+             --output_dir {params.outDir} \
+             &> {log}
             """
             )
 
