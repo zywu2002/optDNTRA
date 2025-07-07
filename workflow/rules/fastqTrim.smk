@@ -1,7 +1,7 @@
 from os.path import join, splitext, basename, dirname, exists
 from os import makedirs
 import logging
-import common_functions as cf
+import optDNTRA_utils as utils
 from time import time
 import shutil
 import pandas as pd
@@ -12,7 +12,7 @@ RAWDATA_PATH = "data"
 
 
 ### Logging Setup ### ----------------------------------------------
-LOG_FQTRIM = cf.get_logger("FASTQTRIM", VERBOSE)
+LOG_FQTRIM = utils.get_logger("FASTQTRIM", VERBOSE)
 
 
 ### Rule ### -------------------------------------------------------
@@ -99,15 +99,15 @@ if TRIM:
         if df.shape[1] == 3:
             df.columns = ["cond", "rep", "fq"]
             df["fq"] = df["fq"].apply(
-                lambda path: cf.process_path(path, PREPROC_DIR)
+                lambda path: utils.process_path(path, PREPROC_DIR)
             )
         elif df.shape[1] == 4:
             df.columns = ["cond", "rep", "fq1", "fq2"]
             df["fq1"] = df["fq1"].apply(
-                lambda path: cf.process_path(path, PREPROC_DIR)
+                lambda path: utils.process_path(path, PREPROC_DIR)
             )
             df["fq2"] = df["fq2"].apply(
-                lambda path: cf.process_path(path, PREPROC_DIR)
+                lambda path: utils.process_path(path, PREPROC_DIR)
             )
         else:
             raise ValueError(f"Unexpected number of columns in {BATCH}")
@@ -262,15 +262,15 @@ else:
         if df.shape[1] == 3:
             df.columns = ["cond", "rep", "fq"]
             df["fq"] = df["fq"].apply(
-                lambda path: cf.process_path(path, PREPROC_DIR)
+                lambda path: utils.process_path(path, PREPROC_DIR)
             )
         elif df.shape[1] == 4:
             df.columns = ["cond", "rep", "fq1", "fq2"]
             df["fq1"] = df["fq1"].apply(
-                lambda path: cf.process_path(path, PREPROC_DIR)
+                lambda path: utils.process_path(path, PREPROC_DIR)
             )
             df["fq2"] = df["fq2"].apply(
-                lambda path: cf.process_path(path, PREPROC_DIR)
+                lambda path: utils.process_path(path, PREPROC_DIR)
             )
         else:
             raise ValueError(f"Unexpected number of columns in {BATCH}")

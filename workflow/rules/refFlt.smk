@@ -1,6 +1,6 @@
 from os.path import join
 import logging
-import common_functions as cf
+import optDNTRA_utils as utils
 from time import time
 
 
@@ -9,7 +9,7 @@ REFTX = config["reference"]
 
 
 ### Logging Setup ### ----------------------------------------
-LOG_REFFLT = cf.get_logger("REFFLT", VERBOSE)
+LOG_REFFLT = utils.get_logger("REFFLT", VERBOSE)
 
 
 ### Rule ### ----------------------------------------

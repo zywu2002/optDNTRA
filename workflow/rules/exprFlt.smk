@@ -1,14 +1,14 @@
 from os.path import join
 from os import makedirs
 import logging
-import common_functions as cf
+import optDNTRA_utils as utils
 from time import time
 import pandas as pd
 import shutil
 
 
 ### Logging Setup ### ----------------------------------------
-LOG_EXPRFLT = cf.get_logger("EXPRFLT", VERBOSE)
+LOG_EXPRFLT = utils.get_logger("EXPRFLT", VERBOSE)
 
 
 ### Rule ### ----------------------------------------

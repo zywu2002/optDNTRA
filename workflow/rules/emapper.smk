@@ -1,7 +1,7 @@
 from os.path import join, dirname
 from os import makedirs
 import logging
-import common_functions as cf
+import optDNTRA_utils as utils
 from time import time
 
 
@@ -10,7 +10,7 @@ EMAPPER_DB = dirname(config["emapper_database"])
 
 
 ### Logging Setup ### ----------------------------------------
-LOG_EMAPPER = cf.get_logger("EMAPPER", VERBOSE)
+LOG_EMAPPER = utils.get_logger("EMAPPER", VERBOSE)
 
 
 ### Rule ### ----------------------------------------

@@ -1,11 +1,11 @@
 from os.path import join
 import logging
-import common_functions as cf
+import optDNTRA_utils as utils
 from time import time
 
 
 ### Logging Setup ### ----------------------------------------
-LOG_SEQCLUSTER = cf.get_logger("SEQCLUSTER", VERBOSE)
+LOG_SEQCLUSTER = utils.get_logger("SEQCLUSTER", VERBOSE)
 
 
 ### Rule ### ----------------------------------------

@@ -1,7 +1,7 @@
 from os.path import join
 from os import makedirs
 import logging
-import common_functions as cf
+import optDNTRA_utils as utils
 from time import time
 
 
@@ -12,7 +12,7 @@ FASTQ_RIGHT = config["right"]
 
 
 ### Logging Setup ### ----------------------------------------
-LOG_QUALCTRL = cf.get_logger("QUALITYCTRL", VERBOSE)
+LOG_QUALCTRL = utils.get_logger("QUALITYCTRL", VERBOSE)
 
 
 ### Rule ### ----------------------------------------

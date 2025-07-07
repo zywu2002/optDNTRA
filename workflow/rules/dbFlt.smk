@@ -1,6 +1,6 @@
 from os.path import join
 import logging
-import common_functions as cf
+import optDNTRA_utils as utils
 from time import time
 
 
@@ -9,7 +9,7 @@ SWISSPROT = config["swiss_prot"]
 
 
 ### Logging Setup ### ----------------------------------------
-LOG_DBFLT = cf.get_logger("DBFLT", VERBOSE)
+LOG_DBFLT = utils.get_logger("DBFLT", VERBOSE)
 
 
 ### Rule ### ----------------------------------------

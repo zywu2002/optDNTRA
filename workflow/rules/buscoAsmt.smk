@@ -1,6 +1,6 @@
 from os.path import join
 import logging
-import common_functions as cf
+import optDNTRA_utils as utils
 from time import time
 
 
@@ -9,7 +9,7 @@ TRANSCRIPTPREFLT = config["transcript"]
 
 
 ### Logging Setup ### ----------------------------------------
-LOG_BUSCOASMT = cf.get_logger("BUSCOASMT", VERBOSE)
+LOG_BUSCOASMT = utils.get_logger("BUSCOASMT", VERBOSE)
 
 
 ### Rule ### ----------------------------------------

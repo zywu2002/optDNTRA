@@ -1,6 +1,6 @@
 from os.path import join
 import logging
-import common_functions as cf
+import optDNTRA_utils as utils
 from time import time
 
 
@@ -9,7 +9,7 @@ OMARK_DB = config["omark_database"]
 
 
 ### Logging Setup ### ----------------------------------------
-LOG_OMARKASMT = cf.get_logger("OMARKASMT", VERBOSE)
+LOG_OMARKASMT = utils.get_logger("OMARKASMT", VERBOSE)
 
 
 ### Rule ### ----------------------------------------

@@ -1,7 +1,7 @@
 from os.path import join, splitext, basename, dirname, exists
 import logging
 import shutil
-import common_functions as cf
+import optDNTRA_utils as utils
 
 
 ### Configuration Setup ### ----------------------------------------
@@ -10,6 +10,7 @@ configfile: "optDNTRA.config.yml"
 ## Parameters
 
 # common
+OUTDIR = config["outDir"]
 SAMPLE = config["sample"]
 READS = config["reads"]
 REFERENCE = config["reference"]
@@ -31,7 +32,7 @@ FASTQ_LEFT = config["left"]
 FASTQ_RIGHT = config["right"]
 BATCH = config["batch"]
 if BATCH:
-    samplesDict = cf.load_sampleSheet(BATCH, config, PAIREDEND)
+    samplesDict = utils.load_sampleSheet(BATCH, config, PAIREDEND)
     SAMPLES = samplesDict.keys()
     SAMPLE_DICT = samplesDict
 
@@ -42,7 +43,7 @@ if FASTQ_LEFT and FASTQ_RIGHT and PAIREDEND:
     assert splitext(FASTQ_LEFT)[1] == splitext(FASTQ_RIGHT)[1]
     FASTQ_EXT = splitext(FASTQ_LEFT)[1]
 if BATCH:
-    samplesDict = cf.load_sampleSheet(BATCH, config, PAIREDEND)
+    samplesDict = utils.load_sampleSheet(BATCH, config, PAIREDEND)
     ext_set = {"." + ".".join(f.split(".")[1:]) for v in samplesDict.values() for f in v}
     assert len(ext_set) == 1
     FASTQ_EXT = next(iter(ext_set))
@@ -50,52 +51,52 @@ if BATCH:
 ## Directory paths
 
 # 01-preprocess
-PREPROC_DIR = join("results", "01-preprocess")
-FASTQC_DIR = join("results", "01-preprocess", "FastQC")
-PREPROC_LOG_DIR = join("log", "01-preprocess")
+PREPROC_DIR = join(OUTDIR, "results", "01-preprocess")
+FASTQC_DIR = join(OUTDIR, "results", "01-preprocess", "FastQC")
+PREPROC_LOG_DIR = join(OUTDIR, "log", "01-preprocess")
 if BATCH:
-    BATCH_UDT = join("results", "01-preprocess", "sampleSheet_udt.tab")
+    BATCH_UDT = join(OUTDIR, "results", "01-preprocess", "sampleSheet_udt.tab")
 
 # 02-optimization
-OPTIM_DIR = join("results", "02-optimization")
-RMREDUNDANT_DIR = join("results", "02-optimization", "01-rmRedundant")
-ORFPREDICT_DIR = join("results", "02-optimization", "02-orfPrediction")
-TRANSEVID_DIR = join("results", "02-optimization", "03-transEvidence")
-OPTIM_LOG_DIR = join("log", "02-optimization")
+OPTIM_DIR = join(OUTDIR, "results", "02-optimization")
+RMREDUNDANT_DIR = join(OUTDIR, "results", "02-optimization", "01-rmRedundant")
+ORFPREDICT_DIR = join(OUTDIR, "results", "02-optimization", "02-orfPrediction")
+TRANSEVID_DIR = join(OUTDIR, "results", "02-optimization", "03-transEvidence")
+OPTIM_LOG_DIR = join(OUTDIR, "log", "02-optimization")
 
 # 03-assessment
 if BUSCO or OMARK:
-    ASMT_DIR = join("results", "03-assessment")
+    ASMT_DIR = join(OUTDIR, "results", "03-assessment")
     if BUSCO:
-        BUSCO_DIR = join("results", "03-assessment", "Busco")
+        BUSCO_DIR = join(OUTDIR, "results", "03-assessment", "Busco")
     if OMARK:
-        OMARK_DIR = join("results", "03-assessment", "Omark")
-    ASMT_LOG_DIR = join("log", "03-assessment")
+        OMARK_DIR = join(OUTDIR, "results", "03-assessment", "Omark")
+    ASMT_LOG_DIR = join(OUTDIR, "log", "03-assessment")
 
 # 04-annotation
 if EMAPPER:
     if BUSCO or OMARK:
-        ANNO_DIR = join("results", "04-annotation")
-        ANNO_LOG_DIR = join("log", "04-annotation")
+        ANNO_DIR = join(OUTDIR, "results", "04-annotation")
+        ANNO_LOG_DIR = join(OUTDIR, "log", "04-annotation")
     else:
-        ANNO_DIR = join("results", "03-annotation")
-        ANNO_LOG_DIR = join("log", "03-annotation")
+        ANNO_DIR = join(OUTDIR, "results", "03-annotation")
+        ANNO_LOG_DIR = join(OUTDIR, "log", "03-annotation")
 
 # 05-statistics
 if BUSCO or OMARK:
     if EMAPPER:
-        STATS_DIR = join("results", "05-statistics")
-        STATS_LOG_DIR = join("log", "05-statistics")
+        STATS_DIR = join(OUTDIR, "results", "05-statistics")
+        STATS_LOG_DIR = join(OUTDIR, "log", "05-statistics")
     else:
-        STATS_DIR = join("results", "04-statistics")
-        STATS_LOG_DIR = join("log", "04-statistics")
+        STATS_DIR = join(OUTDIR, "results", "04-statistics")
+        STATS_LOG_DIR = join(OUTDIR, "log", "04-statistics")
 else:
     if EMAPPER:
-        STATS_DIR = join("results", "04-statistics")
-        STATS_LOG_DIR = join("log", "04-statistics")
+        STATS_DIR = join(OUTDIR, "results", "04-statistics")
+        STATS_LOG_DIR = join(OUTDIR, "log", "04-statistics")
     else:
-        STATS_DIR = join("results", "03-statistics")
-        STATS_LOG_DIR = join("log", "03-statistics")
+        STATS_DIR = join(OUTDIR, "results", "03-statistics")
+        STATS_LOG_DIR = join(OUTDIR, "log", "03-statistics")
 
 
 ### Functions ### ----------------------------------------

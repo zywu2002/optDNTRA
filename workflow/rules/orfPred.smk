@@ -1,6 +1,6 @@
 from os.path import join
 import logging
-import common_functions as cf
+import optDNTRA_utils as utils
 from time import time
 
 
@@ -14,7 +14,7 @@ PFAMHMM = config["pfam_hmm"]
 
 
 ### Logging Setup ### ----------------------------------------
-LOG_ORFPRED = cf.get_logger("ORFPRED", VERBOSE)
+LOG_ORFPRED = utils.get_logger("ORFPRED", VERBOSE)
 
 
 ### Rule ### ----------------------------------------

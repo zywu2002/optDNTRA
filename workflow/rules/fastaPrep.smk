@@ -1,6 +1,6 @@
 from os.path import join
 import logging
-import common_functions as cf
+import optDNTRA_utils as utils
 from time import time
 
 
@@ -9,7 +9,7 @@ TRANSCRIPT = config["transcript"]
 
 
 ### Logging Setup ### ----------------------------------------------
-LOG_FASTAPREP = cf.get_logger("FASTAPREP", VERBOSE)
+LOG_FASTAPREP = utils.get_logger("FASTAPREP", VERBOSE)
 
 
 ### Rule ### -------------------------------------------------------

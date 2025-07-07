@@ -1,12 +1,12 @@
 from os.path import join
 import logging
-import common_functions as cf
+import optDNTRA_utils as utils
 from time import time
 from prettytable import PrettyTable
 
 
 ### Logging Setup ### ----------------------------------------------
-LOG_STATS = cf.get_logger("STATISTICS", VERBOSE)
+LOG_STATS = utils.get_logger("STATISTICS", VERBOSE)
 
 
 ### Rule ### -------------------------------------------------------
@@ -25,15 +25,15 @@ rule statistics:
         LOG_STATS.info("Running statistics.smk...")
         startTime = time()
 
-        seqNumFlt0 = str(cf.count_fastx(input.transcript, LOG_STATS, identifier=">"))
+        seqNumFlt0 = str(utils.count_fastx(input.transcript, LOG_STATS, identifier=">"))
         seqNumFlt1 = str(
-            cf.count_fastx(input.transcriptFlt1, LOG_STATS, identifier=">")
+            utils.count_fastx(input.transcriptFlt1, LOG_STATS, identifier=">")
         )
         seqNumFlt2 = str(
-            cf.count_fastx(input.transcriptFlt2, LOG_STATS, identifier=">")
+            utils.count_fastx(input.transcriptFlt2, LOG_STATS, identifier=">")
         )
         seqNumFlt3 = str(
-            cf.count_fastx(input.transcriptFlt3, LOG_STATS, identifier=">")
+            utils.count_fastx(input.transcriptFlt3, LOG_STATS, identifier=">")
         )
 
         with open(output.log, "w") as FOUT:
