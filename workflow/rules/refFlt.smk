@@ -42,14 +42,14 @@ if REFERENCE:
             makeblastdb -in {input.refTx} -dbtype nucl &> {log}
 
             blastn \
-            -query {input.transcript} \
-            -db {input.refTx} \
-            -out {output.refBlastOut} \
-            -evalue 1e-5 \
-            -max_target_seqs 1 \
-            -outfmt 6 \
-            -num_threads {threads} \
-            &>> {log}
+             -query {input.transcript} \
+             -db {input.refTx} \
+             -out {output.refBlastOut} \
+             -evalue 1e-5 \
+             -max_target_seqs 1 \
+             -outfmt 6 \
+             -num_threads {threads} \
+             &>> {log}
 
             cut -f1 {output.refBlastOut} | sort | uniq > {output.refBlastID} 2>> {log}
             awk '/^>/ {{sub("^>", ""); sub(" .*", ""); print}}' {input.transcript} | sort > {output.transcriptFltID} 2>> {log}
