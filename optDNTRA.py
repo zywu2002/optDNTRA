@@ -171,7 +171,6 @@ def main() -> None:
         # Always prepend the correct snakemake --snakefile path to the options
         # If user provided additional snakemake options, append them; otherwise, only use the default
         args.snakemakeOptions = [f"snakemake --snakefile {snakefile_path}"] + [args.snakemakeOptions] if args.snakemakeOptions else [f"snakemake --snakefile {snakefile_path}"]
-
         # Load workflow configuration (defaults.yml and command-line args)
         config_default = utils.load_defaults(args, LOG_MAIN)
         # Validate all arguments and configuration
