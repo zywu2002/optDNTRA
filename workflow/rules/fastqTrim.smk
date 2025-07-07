@@ -42,12 +42,12 @@ if TRIM:
                     shell(
                     """
                     fastp \
-                    --thread {threads} \
-                    --in1 {input.fastqLeft} --in2 {input.fastqRight} \
-                    --out1 {output.fastqCleanLeft} --out2 {output.fastqCleanRight} \
-                    --html {output.fastpHTML} \
-                    --json {output.fastpJSON} \
-                    &> {log}
+                     --thread {threads} \
+                     --in1 {input.fastqLeft} --in2 {input.fastqRight} \
+                     --out1 {output.fastqCleanLeft} --out2 {output.fastqCleanRight} \
+                     --html {output.fastpHTML} \
+                     --json {output.fastpJSON} \
+                     &> {log}
                     """
                     )
 
@@ -79,12 +79,12 @@ if TRIM:
                     shell(
                     """
                     fastp \
-                    --thread {threads} \
-                    --in1 {input.fastq} \
-                    --out1 {output.fastqClean} \
-                    --html {output.fastpHTML} \
-                    --json {output.fastpJSON} \
-                    &> {log}
+                     --thread {threads} \
+                     --in1 {input.fastq} \
+                     --out1 {output.fastqClean} \
+                     --html {output.fastpHTML} \
+                     --json {output.fastpJSON} \
+                     &> {log}
                     """
                     )
 
@@ -138,12 +138,12 @@ if TRIM:
                     shell(
                     """
                     fastp \
-                    --thread {threads} \
-                    --in1 {input.fastqLeft} --in2 {input.fastqRight} \
-                    --out1 {output.fastqCleanLeft} --out2 {output.fastqCleanRight} \
-                    --html {output.fastpHTML} \
-                    --json {output.fastpJSON} \
-                    &> {log}
+                     --thread {threads} \
+                     --in1 {input.fastqLeft} --in2 {input.fastqRight} \
+                     --out1 {output.fastqCleanLeft} --out2 {output.fastqCleanRight} \
+                     --html {output.fastpHTML} \
+                     --json {output.fastpJSON} \
+                     &> {log}
                     """
                     )
 
@@ -175,12 +175,12 @@ if TRIM:
                     shell(
                     """
                     fastp \
-                    --thread {threads} \
-                    --in1 {input.fastq} \
-                    --out1 {output.fastqClean} \
-                    --html {output.fastpHTML} \
-                    --json {output.fastpJSON} \
-                    &> {log}
+                     --thread {threads} \
+                     --in1 {input.fastq} \
+                     --out1 {output.fastqClean} \
+                     --html {output.fastpHTML} \
+                     --json {output.fastpJSON} \
+                     &> {log}
                     """
                     )
 
