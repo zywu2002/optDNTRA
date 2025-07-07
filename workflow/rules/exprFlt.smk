@@ -38,15 +38,15 @@ if BATCH:
             shell(
             """
             align_and_estimate_abundance.pl \
-            --transcripts {input.transcript} \
-            --seqType fq \
-            --samples_file {input.batch} \
-            --est_method RSEM \
-            --aln_method bowtie2 \
-            --SS_lib_type {params.ssLibType} \
-            --prep_reference \
-            --thread_count {threads} \
-            &> {log}
+             --transcripts {input.transcript} \
+             --seqType fq \
+             --samples_file {input.batch} \
+             --est_method RSEM \
+             --aln_method bowtie2 \
+             --SS_lib_type {params.ssLibType} \
+             --prep_reference \
+             --thread_count {threads} \
+             &> {log}
             """
             )
 
@@ -101,12 +101,12 @@ if BATCH:
             shell(
             """
             abundance_estimates_to_matrix.pl \
-            --est_method RSEM \
-            --gene_trans_map none \
-            --name_sample_by_basedir \
-            --out_prefix {params.RSEMprefix} \
-            {RSEMIsoRes} \
-            &> {log}
+             --est_method RSEM \
+             --gene_trans_map none \
+             --name_sample_by_basedir \
+             --out_prefix {params.RSEMprefix} \
+             {RSEMIsoRes} \
+             &> {log}
 
             rm {TRANSEVID_DIR}/estimate_tx_abundance.complete 2>> {log}
             """
@@ -162,26 +162,26 @@ if BATCH:
             shell(
             """
             filter_low_expr_transcripts.pl \
-            --matrix {input.RSEMIsoTPM} \
-            --transcripts {input.transcript1} \
-            --min_expr_any 1 \
-            > {output.transcriptNoBlast2TPM1fa} \
-            2> {log}
+             --matrix {input.RSEMIsoTPM} \
+             --transcripts {input.transcript1} \
+             --min_expr_any 1 \
+             > {output.transcriptNoBlast2TPM1fa} \
+             2> {log}
             """
             )
 
             shell(
-                """
-                        awk '/^>/ {{sub("^>", ""); sub(" .*", ""); print}}' {output.transcriptNoBlast2TPM1fa} | sort > {output.transcriptNoBlast2TPM1ID} 2>> {log}
-                        comm -13 {output.transcriptNoBlast2TPM1ID} {input.transcriptFltNoBlast2ID} | sort > {output.transcriptNoBlast2NoTPM1ID} 2>> {log}
-                        comm -13 {output.transcriptNoBlast2NoTPM1ID} {input.transcriptFltID} | sort > {output.transcriptFltFinalID} 2>> {log}
-                        seqtk subseq {input.transcript2} {output.transcriptFltFinalID} > {output.transcriptFlt} 2>> {log}
+            """
+            awk '/^>/ {{sub("^>", ""); sub(" .*", ""); print}}' {output.transcriptNoBlast2TPM1fa} | sort > {output.transcriptNoBlast2TPM1ID} 2>> {log}
+            comm -13 {output.transcriptNoBlast2TPM1ID} {input.transcriptFltNoBlast2ID} | sort > {output.transcriptNoBlast2NoTPM1ID} 2>> {log}
+            comm -13 {output.transcriptNoBlast2NoTPM1ID} {input.transcriptFltID} | sort > {output.transcriptFltFinalID} 2>> {log}
+            seqtk subseq {input.transcript2} {output.transcriptFltFinalID} > {output.transcriptFlt} 2>> {log}
 
-                        sed -E 's/^>([^.]+)\\.p.*/>\\1/' {input.transcriptPep} > {output.transcriptFlt1Pep} 2>> {log}
-                        seqtk subseq {output.transcriptFlt1Pep} {output.transcriptFltFinalID} > {output.transcriptFltPep} 2>> {log}        
+            sed -E 's/^>([^.]+)\\.p.*/>\\1/' {input.transcriptPep} > {output.transcriptFlt1Pep} 2>> {log}
+            seqtk subseq {output.transcriptFlt1Pep} {output.transcriptFltFinalID} > {output.transcriptFltPep} 2>> {log}        
 
-                        rm {TRANSEVID_DIR}/transcript.noBlast2.fasta.* 2>> {log} 
-                        """
+            rm {TRANSEVID_DIR}/transcript.noBlast2.fasta.* 2>> {log} 
+            """
             )
 
             endTime = time()
@@ -220,17 +220,17 @@ else:
                 shell(
                 """
                 align_and_estimate_abundance.pl \
-                --transcripts {input.transcript} \
-                --seqType fq \
-                --left {input.fqLeft} \
-                --right {input.fqRight} \
-                --est_method RSEM \
-                --aln_method bowtie2 \
-                --SS_lib_type {params.ssLibType} \
-                --prep_reference \
-                --output_dir {params.trinityToolkitOutdir} \
-                --thread_count {threads} \
-                &> {log}
+                 --transcripts {input.transcript} \
+                 --seqType fq \
+                 --left {input.fqLeft} \
+                 --right {input.fqRight} \
+                 --est_method RSEM \
+                 --aln_method bowtie2 \
+                 --SS_lib_type {params.ssLibType} \
+                 --prep_reference \
+                 --output_dir {params.trinityToolkitOutdir} \
+                 --thread_count {threads} \
+                 &> {log}
                 """
                 )
 
@@ -269,11 +269,11 @@ else:
                 shell(
                 """
                 abundance_estimates_to_matrix.pl \
-                --est_method RSEM \
-                --gene_trans_map none \
-                --out_prefix {params.RSEMprefix} \
-                {input.RSEMIsoRes} \
-                &> {log}
+                 --est_method RSEM \
+                 --gene_trans_map none \
+                 --out_prefix {params.RSEMprefix} \
+                 {input.RSEMIsoRes} \
+                 &> {log}
                 """
                 )
 
@@ -333,11 +333,11 @@ else:
                 shell(
                 """
                 filter_low_expr_transcripts.pl \
-                --matrix {input.RSEMIsoTPM} \
-                --transcripts {input.transcript1} \
-                --min_expr_any 1 \
-                > {output.transcriptNoBlast2TPM1fa} \
-                2> {log}
+                 --matrix {input.RSEMIsoTPM} \
+                 --transcripts {input.transcript1} \
+                 --min_expr_any 1 \
+                 > {output.transcriptNoBlast2TPM1fa} \
+                 2> {log}
                 """
                 )
 
@@ -389,16 +389,16 @@ else:
                 shell(
                 """
                 align_and_estimate_abundance.pl \
-                --transcripts {input.transcript} \
-                --seqType fq \
-                --single {input.fastq} \
-                --est_method RSEM \
-                --aln_method bowtie2 \
-                --SS_lib_type {params.ssLibType} \
-                --prep_reference \
-                --output_dir {params.trinityToolkitOutdir} \
-                --thread_count {threads} \
-                &> {log}
+                 --transcripts {input.transcript} \
+                 --seqType fq \
+                 --single {input.fastq} \
+                 --est_method RSEM \
+                 --aln_method bowtie2 \
+                 --SS_lib_type {params.ssLibType} \
+                 --prep_reference \
+                 --output_dir {params.trinityToolkitOutdir} \
+                 --thread_count {threads} \
+                 &> {log}
                 """
                 )
 
@@ -437,11 +437,11 @@ else:
                 shell(
                 """
                 abundance_estimates_to_matrix.pl \
-                --est_method RSEM \
-                --gene_trans_map none \
-                --out_prefix {params.RSEMprefix} \
-                {input.RSEMIsoRes} \
-                &> {log}
+                 --est_method RSEM \
+                 --gene_trans_map none \
+                 --out_prefix {params.RSEMprefix} \
+                 {input.RSEMIsoRes} \
+                 &> {log}
                 """
                 )
 
@@ -501,11 +501,11 @@ else:
                 shell(
                 """
                 filter_low_expr_transcripts.pl \
-                --matrix {input.RSEMIsoTPM} \
-                --transcripts {input.transcript1} \
-                --min_expr_any 1 \
-                > {output.transcriptNoBlast2TPM1fa} \
-                2> {log}
+                 --matrix {input.RSEMIsoTPM} \
+                 --transcripts {input.transcript1} \
+                 --min_expr_any 1 \
+                 > {output.transcriptNoBlast2TPM1fa} \
+                 2> {log}
                 """
                 )
 
