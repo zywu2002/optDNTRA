@@ -40,11 +40,11 @@ if BATCH:
                 shell(
                 """
                 fastqc \
-                --threads {threads} \
-                --outdir {output.fastqcOutDir} \
-                {input.fastqCleanLeft} \
-                {input.fastqCleanRight} \
-                &> {log}
+                 --threads {threads} \
+                 --outdir {output.fastqcOutDir} \
+                 {input.fastqCleanLeft} \
+                 {input.fastqCleanRight} \
+                 &> {log}
                 """
                 )
 
@@ -76,10 +76,10 @@ if BATCH:
                 shell(
                 """
                 fastqc \
-                --threads {threads} \
-                --outdir {output.fastqcOutDir} \
-                {input.fastqClean} \
-                &> {log}
+                 --threads {threads} \
+                 --outdir {output.fastqcOutDir} \
+                 {input.fastqClean} \
+                 &> {log}
                 """
                 )
 
@@ -113,11 +113,11 @@ else:
                 shell(
                 """
                 fastqc \
-                --threads {threads} \
-                --outdir {output.fastqcOutDir} \
-                {input.fastqCleanLeft} \
-                {input.fastqCleanRight} \
-                &> {log}
+                 --threads {threads} \
+                 --outdir {output.fastqcOutDir} \
+                 {input.fastqCleanLeft} \
+                 {input.fastqCleanRight} \
+                 &> {log}
                 """
                 )
 
@@ -149,10 +149,10 @@ else:
                 shell(
                 """
                 fastqc \
-                --threads {threads} \
-                --outdir {output.fastqcOutDir} \
-                {input.fastqClean} \
-                &> {log}
+                 --threads {threads} \
+                 --outdir {output.fastqcOutDir} \
+                 {input.fastqClean} \
+                 &> {log}
                 """
                 )
 
