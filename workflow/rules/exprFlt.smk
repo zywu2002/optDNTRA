@@ -6,12 +6,18 @@ from time import time
 import pandas as pd
 import shutil
 
-
 ### Logging Setup ### ----------------------------------------
 LOG_EXPRFLT = utils.get_logger("EXPRFLT", VERBOSE)
 
 
 ### Rule ### ----------------------------------------
+
+def ss_lib_type_arg(ssLibType):
+    if ssLibType is not None and str(ssLibType).strip() != "" and str(ssLibType).lower() != "none":
+        return f"--SS_lib_type {ssLibType} "
+    else:
+        return ""
+
 if BATCH:
 
     checkpoint estimate_tx_abundance:
@@ -35,15 +41,17 @@ if BATCH:
 
             makedirs(params.trinityToolkitOutdir, exist_ok=True)
 
+            ss_lib_type = ss_lib_type_arg(params.ssLibType)
+
             shell(
-            """
+            f"""
             align_and_estimate_abundance.pl \
              --transcripts {input.transcript} \
              --seqType fq \
              --samples_file {input.batch} \
              --est_method RSEM \
              --aln_method bowtie2 \
-             --SS_lib_type {params.ssLibType} \
+             {ss_lib_type}\
              --prep_reference \
              --thread_count {threads} \
              &> {log}
@@ -217,8 +225,10 @@ else:
 
                 makedirs(params.trinityToolkitOutdir, exist_ok=True)
 
+                ss_lib_type = ss_lib_type_arg(params.ssLibType)
+
                 shell(
-                """
+                f"""
                 align_and_estimate_abundance.pl \
                  --transcripts {input.transcript} \
                  --seqType fq \
@@ -226,7 +236,7 @@ else:
                  --right {input.fqRight} \
                  --est_method RSEM \
                  --aln_method bowtie2 \
-                 --SS_lib_type {params.ssLibType} \
+                 {ss_lib_type}\
                  --prep_reference \
                  --output_dir {params.trinityToolkitOutdir} \
                  --thread_count {threads} \
@@ -386,15 +396,17 @@ else:
 
                 makedirs(params.trinityToolkitOutdir, exist_ok=True)
 
+                ss_lib_type = ss_lib_type_arg(params.ssLibType)
+
                 shell(
-                """
+                f"""
                 align_and_estimate_abundance.pl \
                  --transcripts {input.transcript} \
                  --seqType fq \
                  --single {input.fastq} \
                  --est_method RSEM \
                  --aln_method bowtie2 \
-                 --SS_lib_type {params.ssLibType} \
+                 {ss_lib_type}\
                  --prep_reference \
                  --output_dir {params.trinityToolkitOutdir} \
                  --thread_count {threads} \
