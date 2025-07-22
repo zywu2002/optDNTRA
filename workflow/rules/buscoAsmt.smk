@@ -31,7 +31,9 @@ checkpoint busco_assessment:
         join(ASMT_LOG_DIR, "buscoAsmt-busco_assessment.log"),
     params:
         lineage=BUSCO_LINEAGE,
-        downloadPath=join(BUSCO_DIR, BUSCO_LINEAGE),
+        buscoPreFlt="busco_" + BUSCO_LINEAGE + "_preFlt",
+        buscoPostFlt="busco_" + BUSCO_LINEAGE + "_postFlt",
+        downloadPath=directory(join(BUSCO_DIR, BUSCO_LINEAGE))
     threads: THREADS
     run:
         LOG_BUSCOASMT.info("Running buscoAsmt.smk...")
@@ -40,25 +42,27 @@ checkpoint busco_assessment:
         shell(
         """
         busco \
-         -l {params.lineage} \
-         -i {input.transcriptPreFlt} \
-         -m transcriptome \
+         --in {input.transcriptPreFlt} \
+         --out {params.buscoPreFlt} \
+         --mode transcriptome \
+         --lineage_dataset {params.lineage} \
+         --cpu {threads} \
          --download_path {params.downloadPath} \
          --force \
-         --cpu {threads} \
+         --out_path {params.downloadPath} \
          --quiet \
-         --out {output.buscoPreFlt} \
          &> {log}
 
         busco \
-         -l {params.lineage} \
-         -i {input.transcriptPostFlt} \
-         -m transcriptome \
+         --in {input.transcriptPostFlt} \
+         --out {params.buscoPostFlt} \
+         --mode transcriptome \
+         --lineage_dataset {params.lineage} \
+         --cpu {threads} \
          --download_path {params.downloadPath} \
          --force \
-         --cpu {threads} \
+         --out_path {params.downloadPath} \
          --quiet \
-         --out {output.buscoPostFlt} \
          &>> {log}
         """
         )
